@@ -26,7 +26,7 @@ module SimpleTransceiverC @safe() {
 implementation {
 
   message_t packet;
-  int t = 15;
+  int t = 500;
   uint32_t start_time;
   uint32_t end_time;
 uint32_t  during_time;
@@ -67,7 +67,7 @@ uint32_t  during_time;
       if (call AMSend.send(AM_BROADCAST_ADDR, &packet, call AMSend.maxPayloadLength()) == SUCCESS) {// Broadcast doesn't need ACK.
 	   // dbg("SimpleTransceiverC", "SimpleTransceiverC: packet sent.\n", counter);	
             start_time = call LocalTime.get();
-		//dbg("SimpleTransceiverC","%d\n",start_time);
+		dbg("SimpleTransceiverC","send at %d\n",start_time);
 	    locked = TRUE;
       }
 	  //else send failed
@@ -83,13 +83,14 @@ uint32_t  during_time;
 		
 		end_time = call LocalTime.get();
 		during_time = end_time - start_time;
-			
+		
 		if(during_time <= t){
-				dbg("SimpleTransceiverC","sucess\n");	
+				dbg("SimpleTransceiverC","receive the response at %d\n",end_time);
+				dbg("SimpleTransceiverC","****SUCCESS*******\n");	
 		}
-else{
-dbg("SimpleTransceiverC","failed\n");	
-	}
+		else{
+			dbg("SimpleTransceiverC","failed\n");	
+		}
 	}
 	else{
 	
@@ -97,7 +98,7 @@ dbg("SimpleTransceiverC","failed\n");
 	addr = call AMPacket.source(bufPtr);
 	random_time = (float)(call Random.rand32())/max * 2 * t ;
 	// sleep(random_time);
-	call Timer1.startOneShot(500);
+	call Timer1.startOneShot(random_time);
 
 	//dbg("SimpleTransceiverC", "ID=%d\n",addr);
 	//dbg("SimpleTransceiverC","random=%d\n",random_time);
