@@ -150,7 +150,7 @@ m11.createNoiseModel()
 m12.createNoiseModel()
 m13.createNoiseModel()
 
-for i in range(0, 10000):
+for i in range(0, 50000):
     t.runNextEvent();
 
     

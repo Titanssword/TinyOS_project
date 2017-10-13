@@ -5,12 +5,9 @@
 * @date Feb.17 2010
 */
 
-#include "RadioCountToLeds.h"
+
 configuration SimpleTransceiverAppC {}
 implementation {
-typedef nx_struct radio_count_msg {
-  nx_uint16_t counter;
-} radio_count_msg_t;
 
   enum {
 	  AM_SIMPLE_TRANSCEIVER_MSG = 10, // specify the AM type of the packet.

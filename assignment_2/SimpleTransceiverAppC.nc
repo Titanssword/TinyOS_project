@@ -5,7 +5,7 @@
 * @date Feb.17 2010
 */
 
-#include "RadioCountToLeds.h"
+#include "SimpleTransceiver.h"
 configuration SimpleTransceiverAppC {}
 implementation {
 
