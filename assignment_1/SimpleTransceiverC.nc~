@@ -65,7 +65,7 @@ uint32_t  during_time;
     else {
 	  //call PacketAcknowledgements.requestAck(&packet);// shwe
       if (call AMSend.send(AM_BROADCAST_ADDR, &packet, call AMSend.maxPayloadLength()) == SUCCESS) {// Broadcast doesn't need ACK.
-	    dbg("SimpleTransceiverC", "SimpleTransceiverC: packet sent.\n", counter);	
+	   // dbg("SimpleTransceiverC", "SimpleTransceiverC: packet sent.\n", counter);	
             start_time = call LocalTime.get();
 		dbg("SimpleTransceiverC","send at %d\n",start_time);
 	    locked = TRUE;

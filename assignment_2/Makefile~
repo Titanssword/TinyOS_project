@@ -1,0 +1,19 @@
+COMPONENT=SimpleTransceiverAppC
+
+
+
+
+
+BUILD_EXTRA_DEPS = 1.py  
+CLEAN_EXTRA = 1.py  
+
+1.py: RadioCountToLeds.h
+	mig python -target=$(PLATFORM) $(CFLAGS) -python-classname=RadioCountMsg RadioCountToLeds.h radio_count_msg -o $@
+
+
+
+
+
+
+include $(MAKERULES)
+

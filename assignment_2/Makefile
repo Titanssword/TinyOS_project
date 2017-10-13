@@ -1,0 +1,10 @@
+COMPONENT=SimpleTransceiverAppC
+
+
+
+
+
+
+
+include $(MAKERULES)
+
