@@ -24,19 +24,19 @@ m13 = t.getNode(13)
 
 # Set up a hidden terminal scenario, where 1 and 3
 # are closely synchronized, but cannot hear each other.
-m1.bootAtTime(345321);
-m2.bootAtTime(321234);
-m3.bootAtTime(345325);
-m4.bootAtTime(400000);
-m5.bootAtTime(410000);
-m6.bootAtTime(420340);
-m7.bootAtTime(430544);
-m8.bootAtTime(449503);
-m9.bootAtTime(456793);
-m10.bootAtTime(563492);
-m11.bootAtTime(963492);
-m12.bootAtTime(1163492);
-m13.bootAtTime(1363492);
+m1.bootAtTime(5321);
+m2.bootAtTime(1234);
+m3.bootAtTime(5325);
+m4.bootAtTime(4000);
+m5.bootAtTime(4100);
+m6.bootAtTime(4203);
+m7.bootAtTime(4305);
+m8.bootAtTime(4495);
+m9.bootAtTime(4567);
+m10.bootAtTime(6324);
+m11.bootAtTime(6634);
+m12.bootAtTime(6344);
+m13.bootAtTime(6934);
 
 
 r.add(1, 2, 20.0);

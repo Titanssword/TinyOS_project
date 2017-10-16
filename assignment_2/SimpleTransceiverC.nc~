@@ -6,7 +6,9 @@
 */
 #include <unistd.h>
 #include "SimpleTransceiver.h"
-
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h> 
 module SimpleTransceiverC @safe() {
   uses {
     interface Leds;
@@ -40,7 +42,7 @@ uint32_t  during_time;
   uint16_t nCountACK = 0;
   uint32_t max = 2147483647;
   uint32_t random_time;
-  float random_NODE;
+  int random_NODE;
   int want =0;
 	am_addr_t addr;
   int actuator[4][4] = { { 1,2,4,5}, { 2,3,5,6}, { 4,5,7,8}, { 5,6,8,9}};
@@ -64,8 +66,9 @@ simple_transceiver_t* rcm5;
   event void AMControl.startDone(error_t err) {
     if (err == SUCCESS) {
 	if(TOS_NODE_ID == 10 || TOS_NODE_ID == 11|| TOS_NODE_ID == 12|| TOS_NODE_ID == 13)
-		call Timer1.startPeriodic(3000);
-		//call Timer1.startOneShot(0);
+		//call Timer1.startPeriodic(9000);
+		call Timer1.startOneShot(8000);
+		
 		
     }
     else {
@@ -87,7 +90,7 @@ simple_transceiver_t* rcm5;
 
 	
 	if(locked) return;
-      else if (call AMSend.send(AM_BROADCAST_ADDR, &packet, 1) == SUCCESS) {// Broadcast doesn't need ACK.
+      	else if (call AMSend.send(AM_BROADCAST_ADDR, &packet, 1) == SUCCESS) {// Broadcast doesn't need ACK.
 	    //dbg("SimpleTransceiverC", "SimpleTransceiverC: packet sent.\n", counter);	
             start_time = call LocalTime.get();
 		dbg("SimpleTransceiverC","send at %d\n",start_time);
@@ -99,7 +102,7 @@ simple_transceiver_t* rcm5;
 
   event message_t* Receive.receive(message_t* bufPtr, void* payload, uint8_t len) {   //4. when a message is received, come to here
    
-   
+   	
 	
 	//addr = call AMPacket.source(bufPtr);
 	if(len==1){
@@ -115,7 +118,7 @@ simple_transceiver_t* rcm5;
 		timestamps[0] = rcm->timestamp;
 		order[0] = TOS_NODE_ID ;
 		//dbg("SimpleTransceiverC", "I'm %d $$$$$$$$ my t[0] is %d\n",TOS_NODE_ID, timestamps[0]);
-		dbg("SimpleTransceiverC", "random is %f\n", );
+		//dbg("SimpleTransceiverC", "random is %f\n", );
 		if (call AMSend.send(AM_BROADCAST_ADDR, &ts, sizeof(simple_transceiver_t)) == SUCCESS) {
 		
 			locked = TRUE;
@@ -243,6 +246,8 @@ simple_transceiver_t* rcm5;
 		dbg("SimpleTransceiverC", "Node %d is running\n",TOS_NODE_ID);
 			if(round <3)
 		dbg("SimpleTransceiverC", "Node %d told Node %d to run\n",TOS_NODE_ID,order[round+1]);
+
+	
 		rcm5 = (simple_transceiver_t*)(call Packet.getPayload(&ts, sizeof (simple_transceiver_t*)));
 		rcm5->round = round+1;
 		rcm5->a[0] = rcm4->a[0];
@@ -263,19 +268,20 @@ return bufPtr;
 }
 
 event void Timer1.fired() {
-	
-		random_NODE = (float)(call Random.rand32())/max * 10;
-			dbg("SimpleTransceiverC", "randomNOde: %f\n", random_NODE );
-		if(random_NODE <3 && TOS_NODE_ID ==10)
+	srand((unsigned)time( NULL ) ); 
+   			random_NODE = (rand()%100 + 1);
+		//random_NODE = (float)(call Random.rand32())/max * 100000;
+			//dbg("SimpleTransceiverC", "randomNOde: %d\n", random_NODE);
+		if(random_NODE <25 && TOS_NODE_ID ==10)
 			
            		 call MilliTimer.startOneShot(0);
-		else if(random_NODE >3 && random_NODE <6 && TOS_NODE_ID ==11)
+		else if(random_NODE >=25 && random_NODE <50 && TOS_NODE_ID ==11)
 				
            		 call MilliTimer.startOneShot(0);
-		else if(random_NODE >6 && random_NODE <9 && TOS_NODE_ID ==12)
+		else if(random_NODE >=50 && random_NODE <75 && TOS_NODE_ID ==12)
 				
            		 call MilliTimer.startOneShot(0);
-		else if(random_NODE >9 && TOS_NODE_ID ==13)
+		else if(random_NODE >=75 && TOS_NODE_ID ==13)
 			
            		 call MilliTimer.startOneShot(0);
 	}
